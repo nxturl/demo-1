@@ -21,7 +21,24 @@ for file in files:
     municipality_data.update(data)
 
 
-municipalities = municipality_data.keys()
+cities_states = {
+    "Pittsburg": "Pittsburgh, PA",
+    "Davenport": "Davenport, IA",
+    "Bettendorf": "Bettendorf, IA",
+    "Fort Worth": "Fort Worth, TX",
+    "Ann Arbor": "Ann Arbor, MI",
+    "Pawtucket": "Pawtucket, RI",
+    "Prince George": "Prince George, VA",
+    "Metuchen": "Metuchen, NJ",
+    "Rock Island": "Rock Island, IL",
+    "Moline": "Moline, IL",
+    "Phoenix": "Phoenix, AZ",
+    "Dallas": "Dallas, TX",
+}
+
+municipality_data = {cities_states[m]: v for m, v in municipality_data.items()}
+municipalities = sorted(municipality_data.keys())
+
 
 municipality = st.sidebar.selectbox("Select Municipality", list(municipalities))
 selected_municipality_data = municipality_data[municipality]
