@@ -86,32 +86,32 @@ for index_i, transcript in enumerate(selected_municipality_data):
                 )
     break
 
-# entity_search_tab,
-table_view_tab, reference_text_view = st.tabs(
-    [
-        # "Entity Search",
-        "Table View",
-        "Reference Text View",
-    ]
-)
+# # entity_search_tab,
+# table_view_tab, reference_text_view = st.tabs(
+#     [
+#         # "Entity Search",
+#         "Table View",
+#         "Reference Text View",
+#     ]
+# )
 
 
-with table_view_tab:
-    table_view_tab.subheader("Viewing all the insights in tabular format.")
-    st.dataframe(
-        pd.DataFrame(
-            table_data,
-            columns=[
-                "Entity",
-                "Classification",
-                "Observation",
-                "Date",
-                "Meeting Name",
-                "Sentiment",
-                "Chunk Index",
-            ],
-        )
-    )
+# with table_view_tab:
+#     table_view_tab.subheader("Viewing all the insights in tabular format.")
+#     st.dataframe(
+#         pd.DataFrame(
+#             table_data,
+#             columns=[
+#                 "Entity",
+#                 "Classification",
+#                 "Observation",
+#                 "Date",
+#                 "Meeting Name",
+#                 "Sentiment",
+#                 "Chunk Index",
+#             ],
+#         )
+#     )
 
 # with entity_search_tab:
 #     entity_to_display = st.selectbox(
@@ -140,65 +140,65 @@ with table_view_tab:
 #             )
 #         )
 
-with reference_text_view:
-    reference_entity_to_display = st.selectbox(
-        label="Search entity to view insights and references",
-        options=entities.keys(),
-        # index=None,
-        # placeholder="Start typing to select an entity",
-    )
-    if reference_entity_to_display:
-        entity_insights = entities[reference_entity_to_display]
-        entity_table = []
-        for key, value in entity_insights.items():
-            for val in value:
-                entity_table.append((key, *val))
+# with reference_text_view:
+reference_entity_to_display = st.selectbox(
+    label="Search entity to view insights and references",
+    options=entities.keys(),
+    # index=None,
+    # placeholder="Start typing to select an entity",
+)
+if reference_entity_to_display:
+    entity_insights = entities[reference_entity_to_display]
+    entity_table = []
+    for key, value in entity_insights.items():
+        for val in value:
+            entity_table.append((key, *val))
 
-        for et_index, et in enumerate(entity_table):
-            (
-                classification,
-                observation,
-                date,
-                meeting_name,
-                sentiment,
-                (index_i, index_j),
-            ) = et
-            chunk = indices2chunk[(index_i, index_j)]
-            chunk_url = indices2url[(index_i, index_j)]
-            with st.expander(
-                # f" {classification} related observation with {sentiment} sentiment    ... click to expand.",
-                f" Click to expand insight {et_index+1}",
-                expanded=True,
-            ):
-                # st.subheader(f"Observation")
-                st.text_area(
-                    "Observation",
-                    value=observation,
+    for et_index, et in enumerate(entity_table):
+        (
+            classification,
+            observation,
+            date,
+            meeting_name,
+            sentiment,
+            (index_i, index_j),
+        ) = et
+        chunk = indices2chunk[(index_i, index_j)]
+        chunk_url = indices2url[(index_i, index_j)]
+        with st.expander(
+            # f" {classification} related observation with {sentiment} sentiment    ... click to expand.",
+            f" Click to expand insight {et_index+1}",
+            expanded=True,
+        ):
+            # st.subheader(f"Observation")
+            st.text_area(
+                "Observation",
+                value=observation,
+                disabled=True,
+                # height=200,
+                key=str(uuid4()),
+            )
+            # st.text_area for classification, date, meeting name, sentiment
+            items_to_display = [
+                ("Classification", classification),
+                ("Date", date),
+                ("Meeting Name", meeting_name),
+                ("Sentiment", sentiment),
+            ]
+            for name, value in items_to_display:
+                st.text_input(
+                    label=name,
+                    value=value,
                     disabled=True,
-                    # height=200,
+                    # height=20,
                     key=str(uuid4()),
                 )
-                # st.text_area for classification, date, meeting name, sentiment
-                items_to_display = [
-                    ("Classification", classification),
-                    ("Date", date),
-                    ("Meeting Name", meeting_name),
-                    ("Sentiment", sentiment),
-                ]
-                for name, value in items_to_display:
-                    st.text_input(
-                        label=name,
-                        value=value,
-                        disabled=True,
-                        # height=20,
-                        key=str(uuid4()),
-                    )
 
-                st.text_area(
-                    label=f"Reference text: ",
-                    value=chunk,
-                    disabled=True,
-                    height=200,
-                    key=str(uuid4()),
-                )
-                st.write(f"Reference URL: {chunk_url}")
+            st.text_area(
+                label=f"Reference text: ",
+                value=chunk,
+                disabled=True,
+                height=200,
+                key=str(uuid4()),
+            )
+            st.write(f"Reference URL: {chunk_url}")
