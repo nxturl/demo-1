@@ -28,7 +28,7 @@ cities_states = {
     "Fort Worth": "Fort Worth, TX",
     "Ann Arbor": "Ann Arbor, MI",
     "Pawtucket": "Pawtucket, RI",
-    "Prince George": "Prince George, VA",
+    # "Prince George": "Prince George, VA",
     "Metuchen": "Metuchen, NJ",
     "Rock Island": "Rock Island, IL",
     "Moline": "Moline, IL",
@@ -36,7 +36,8 @@ cities_states = {
     "Dallas": "Dallas, TX",
 }
 
-municipality_data = {cities_states[m]: v for m, v in municipality_data.items()}
+# municipality_data = {cities_states[m]: v for m, v in municipality_data.items()}
+municipality_data = {x: municipality_data[x] for x in cities_states}
 municipalities = sorted(municipality_data.keys())
 
 
@@ -56,6 +57,7 @@ for index_i, transcript in enumerate(selected_municipality_data):
         date = transcript["date"]
         meeting_name = " ".join(re.split("[\W_]+", transcript["meeting_name"]))
         esg_insights = chunk["esg_v2"]
+        st.write(esg_insights)
         # if not esg_insights:
         #     continue
 
@@ -96,7 +98,7 @@ table_view_tab, reference_text_view = st.tabs(
 
 with table_view_tab:
     table_view_tab.subheader("Viewing all the insights in tabular format.")
-    st.table(
+    st.dataframe(
         pd.DataFrame(
             table_data,
             columns=[
