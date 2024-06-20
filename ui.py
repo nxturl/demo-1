@@ -1,3 +1,4 @@
+import glob
 import json
 import re
 from collections import Counter, defaultdict
@@ -12,8 +13,12 @@ ESG_MAPPING = {"E": "Environment", "S": "Social", "G": "Governance"}
 st.title("GatherGov ESG Intelligence")
 
 
-with open("./small_v1.json") as f:
-    municipality_data = json.load(f)
+municipality_data = {}
+
+files = glob.glob("./small_v1_*.json")
+for file in files:
+    data = json.load(open(file, "r"))
+    municipality_data.update(data)
 
 
 municipalities = municipality_data.keys()
