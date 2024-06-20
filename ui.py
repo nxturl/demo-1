@@ -57,7 +57,7 @@ for index_i, transcript in enumerate(selected_municipality_data):
         date = transcript["date"]
         meeting_name = " ".join(re.split("[\W_]+", transcript["meeting_name"]))
         esg_insights = chunk["esg_v2"]
-        st.write(esg_insights)
+        # st.write(esg_insights)
         # if not esg_insights:
         #     continue
 
