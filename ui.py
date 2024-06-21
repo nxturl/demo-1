@@ -37,7 +37,7 @@ cities_states = {
 }
 
 # municipality_data = {cities_states[m]: v for m, v in municipality_data.items()}
-municipality_data = {x: municipality_data[x] for x in cities_states}
+municipality_data = {cities_states[x]: municipality_data[x] for x in cities_states}
 municipalities = sorted(municipality_data.keys())
 
 
